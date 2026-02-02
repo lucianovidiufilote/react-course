@@ -1,6 +1,30 @@
-import {formatter} from "../util/investment.js";
+import {calculateInvestmentResults, formatter} from "../util/investment.js";
 
-export default function Table({results}) {
+function deriveResults(parameters, investmentResults) {
+    const output = [];
+    let runningTotalInterest = 0;
+    let runningInvestedCapital = Number(parameters.initialInvestment);
+
+    for (const investmentResult of investmentResults) {
+        runningTotalInterest += investmentResult.interest;
+        runningInvestedCapital += investmentResult.annualInvestment;
+        output.push({
+            year: investmentResult.year,
+            valueEndOfYear: investmentResult.valueEndOfYear,
+            interest: investmentResult.interest,
+            totalInterest: runningTotalInterest,
+            investedCapital: runningInvestedCapital
+        })
+    }
+
+    return output;
+}
+
+export default function Table({parameters}) {
+
+    const investmentResults = calculateInvestmentResults(parameters);
+    const results = deriveResults(parameters, investmentResults)
+
     return (
         <table id="result">
             <thead>
