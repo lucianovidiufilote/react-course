@@ -45,3 +45,52 @@ Other important stuff
 - a parent re-render usually causes child re-render. Children are “re-evaluated
   by default” because React assumes change unless proven otherwise.
 - a child re-render DOES NOT cause the parent to re-render.
+
+## lifecycle
+
+Mount:
+render → commit → paint → effects
+
+Update:
+render → commit → paint → effects
+
+Unmount:
+cleanup
+
+MOUNT                          UPDATE
+─────                          ──────
+render                         render
+↳ useState(init)               ↳ useState(read)
+commit                         commit
+paint                          paint
+effects                        cleanup (if deps changed)
+effects
+
+
+useEffect(fn)
+─────────────
+render → effect
+render → effect
+render → effect
+
+useEffect(fn, [])
+─────────────
+render → effect
+render → —
+render → —
+unmount → cleanup
+
+useEffect(fn, [x])
+─────────────
+render(x=1) → effect
+render(x=1) → —
+render(x=2) → cleanup → effect
+
+
+### Key takeaways
+- Render ≠ DOM update
+- Effects never run during render
+- State is preserved across renders
+- All effects run after paint
+- Multiple effects ≠ multiple renders
+- State updates in effects are batched
