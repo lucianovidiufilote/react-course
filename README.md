@@ -9,11 +9,11 @@ useRef
 - I want to store a value with no direct impact to the UI
 
 useState
-
 - I want to store a value with direct impact to the UI
+- state update is scheduled, not instant
+- state does not re-initialize on re-render, just on initial mount
 
 useEffect
-
 - executes after the component function is done executing
 - state or context values need to be added as dependencies
 - dependency array cases: https://react.dev/reference/react/useEffect#examples-dependencies
@@ -31,6 +31,14 @@ useCallback
 - I want to store the function definition in memory and reuse it when the
   component function executes
 - same logic with deps as with useEffect
+
+memo
+- apply to component function
+- if props are unchanged, the parent does not trigger child re-render
+
+
+useMemo
+- caches function results between re-renders
 
 Other important stuff
 
