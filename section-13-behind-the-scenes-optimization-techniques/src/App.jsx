@@ -12,6 +12,7 @@ function App() {
   
   function handleSetCount(newCount){
     setChosenCount(newCount);
+    console.log(chosenCount); // old value
   }
 
   return (
@@ -19,7 +20,11 @@ function App() {
       <Header />
       <main>
         <ConfigureCounter onSet={handleSetCount} />
-        <Counter initialCount={chosenCount} />
+        <Counter key={chosenCount} initialCount={chosenCount} />{/*the key
+         there resets the component. This is like a more efficient
+          alternative to using useEffect in Counter component. */}
+        
+        <Counter initialCount={0} />
       </main>
     </>
   );
